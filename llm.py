@@ -19,14 +19,32 @@ client = AzureOpenAI(
   azure_endpoint = endpoint
 )
 
-response = client.chat.completions.create(
-    model=deployment_name, 
-    messages=[
-        {"role": "system", "content": "Assistant is a large language model trained by OpenAI."},
-        {"role": "user", "content": "Who were the founders of Microsoft?"}
-    ]
-)
+system_content = """
+Assistant is a large language model trained by OpenAI. 
+Instructions: 
+-only answer questions related to microsoft. 
+-If you're unsure of an answer or its not relevant say I'm dumb
+Context:
+- User is thinking about azure open ai service
+"""
 
-print(response)
-print(response.model_dump_json(indent=2))
-print(response.choices[0].message.content)
+conversation = [
+        {"role": "system", 
+         "content": system_content},
+        ]
+
+while True:
+    user_input = input("Q: ")
+    conversation.append({ "role": "user", "content": user_input })
+    response = client.chat.completions.create(
+        model = deployment_name,
+        messages = conversation
+    )
+    
+    conversation.append({"role": "assistant", "content": response.choices[0].message.content})
+    print("\n" + response.choices[0].message.content + "\n")
+    print(response.usage)
+
+    
+
+
