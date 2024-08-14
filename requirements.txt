@@ -1,3 +1,7 @@
-pandas
+torch
+torchaudio
+torchvision
 transformers
 accelerate
+openai
+python-dotenv
