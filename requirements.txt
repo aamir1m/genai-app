@@ -5,3 +5,5 @@ transformers
 accelerate
 openai
 python-dotenv
+tiktoken
+flask-cors
