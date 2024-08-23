@@ -1,5 +1,7 @@
-from flask import current_app as app, jsonify
+from flask import current_app as app, jsonify, request
 
-@app.route('/api/hello', methods=['GET'])
+@app.route('/api/hello', methods=['POST'])
 def hello():
-    return jsonify({"message": "Hello, World!"})
+    data = request.json
+    message = data.get('message', 'World') 
+    return jsonify({"output": f"Hello, {message}!"})
